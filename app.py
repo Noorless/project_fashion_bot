@@ -1,4 +1,5 @@
 import streamlit as st
+import os
 from FSM import FashionFSM
 
 # Konfigurasi Halaman
@@ -165,7 +166,8 @@ with st.sidebar:
             with st.expander(title, expanded=False):
                 st.write(outfit["text"])
                 if outfit["image"]:
-                    st.image(outfit["image"], use_container_width=True)
+                    abs_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), outfit["image"])
+                    st.image(abs_path, use_container_width=True)
 
 # Menampilkan Riwayat Pesan
 for message in st.session_state.messages:
@@ -175,7 +177,8 @@ for message in st.session_state.messages:
     with st.chat_message(role, avatar=avatar):
         st.write(message["content"])
         if "image" in message and message["image"]:
-            st.image(message["image"], caption="Rekomendasi Outfit Anda", use_container_width=True)
+            abs_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), message["image"])
+            st.image(abs_path, caption="Rekomendasi Outfit Anda", use_container_width=True)
 
 # Tampilkan tombol opsi interaktif sesuai status FSM saat ini (Quick Replies)
 current_state = st.session_state.fsm.state
